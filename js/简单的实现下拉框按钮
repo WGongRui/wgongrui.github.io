@@ -132,6 +132,9 @@ function checkChange(e) {
             }
             input.value = selValue.sort().join(',')
         } else {
+            if(selValue == undefined || selValue.length < 1) {
+                selValue = new Array()
+            }
             selValue.push(e.value)
             input.value = selValue.sort().join(',')
         }
