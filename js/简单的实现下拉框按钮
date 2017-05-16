@@ -1,0 +1,155 @@
+/**
+ * Created by GongRui_W on 2017/5/16.
+ */
+/**
+ * 简单的实现下拉框按钮
+ * @param select
+ * 调用方式   <script> selectInput(document.getElementById("demandId"))</script>
+ */
+function selectInput(select) {
+//        var select = document.getElementById("select")
+    var options = select.getElementsByTagName("option")
+    var values = new Array()
+    var text = new Array()
+    var selValue = new Array()
+
+    var px = select.offsetLeft
+    var py = select.offsetTop
+    var height = select.offsetHeight
+
+    var div = document.createElement("div")
+    var input = document.createElement("input")
+    var div2 = document.createElement("div")
+
+    var search = document.createElement('input')
+    var ul_div = document.createElement("div")
+    var ul = document.createElement("ul")
+
+    var inputid = 'select-input-value' + select.id
+    // 全选按钮
+    var li_all = document.createElement('li')
+    li_all.innerHTML = '<input type="checkbox" style="width: 15px;height: 15px;" onchange="checkChange(this)" value="all"/>&nbsp;&nbsp;全选'
+    ul.appendChild(li_all)
+
+    for(var i = 0; i < options.length;i++) {
+        var li = document.createElement('li')
+        li.innerText = options[i].innerText
+        li.style.listStyleType = 'none'
+        values.push(options[i].value)
+        text.push(options[i].innerText)
+        if(options[i].selected) {
+            selValue.push(options[i].value)
+            li.innerHTML = '<input type="checkbox" style="width: 15px;height: 15px" checked onchange="checkChange(this)" value="' + options[i].value + '"/>&nbsp;&nbsp;' + options[i].innerText + ''
+        } else {
+            li.innerHTML = '<input type="checkbox" style="width: 15px;height: 15px"  onchange="checkChange(this)" value="' + options[i].value + '"/>&nbsp;&nbsp;' + options[i].innerText + ''
+        }
+        ul.appendChild(li)
+//            console.log(li.innerText)
+    }
+    input.name = select.id
+    input.type = 'text'
+    input.readonly='readonly'
+    input.id = inputid
+    input.style.width = '200px'
+    input.required = 'required'
+    input.class = 'form-control'
+    search.class = 'form-control'
+
+    div.offsetLeft = px
+    div.offsetTop = py
+    div.offsetHeight = 200
+    div.style.width = '200px'
+    div.style.height = '50px'
+    div.style.zIndex = 10000
+
+    ul.setAttribute('class', inputid)
+    ul.style.paddingLeft = '0px'
+    div2.style.display = 'none'
+    search.placeholder = '搜索'
+
+    ul_div.style.maxHeight = '200px'
+    ul_div.style.overflow = 'auto'
+    ul_div.style.width = '200px'
+    ul_div.style.backgroundColor = '#ccc'
+    ul_div.style.color = '#EE0000'
+    ul_div.style.zIndex = 10000
+    ul_div.style.fontSize = '15px'
+    ul_div.appendChild(ul)
+    div2.appendChild(search)
+    div2.appendChild(ul_div)
+    div.appendChild(input)
+    div.appendChild(div2)
+    select.parentNode.appendChild(div)
+    // select.hidden = 'hidden'
+    select.style.display = 'none'
+    for(var i = 0; i < selValue.length; i++) {
+        selValue.join(',')
+    }
+    input.value = selValue.join(',')
+    search.style.width = '200px'
+    input.addEventListener('click',function () {
+        // console.log(div2)
+        if(div2.style.display == 'none') {
+            div2.style.display = 'inherit'
+        } else {
+            div2.style.display = 'none'
+        }
+    })
+    search.addEventListener('input', function () {
+        var lis = ul.getElementsByTagName("li")
+        if(this.value.trim().length > 0) {
+            for(var i = 0; i < lis.length;i++) {
+                if(lis[i].innerText.trim().indexOf(this.value) < 0) {
+                    lis[i].style.display = 'none'
+                } else {
+                    lis[i].style.display = 'inherit'
+                }
+            }
+        } else {
+            for(var i = 0; i < lis.length;i++) {
+                lis[i].style.display = 'inherit'
+            }
+        }
+    })
+}
+
+function checkChange(e) {
+    var inputid = e.parentNode.parentNode.getAttribute('class')
+    // console.log(inputid)
+    var input = document.getElementById(inputid)
+    var v = input.value
+    var selValue;
+    if(v.length > 0) {
+        selValue = v.split(',')
+    }
+    if(e.checked) {
+        if(e.value == 'all') {
+            var lis = input.nextElementSibling.getElementsByTagName("li")
+            selValue = new Array()
+            for(var i = 1; i < lis.length; i++) {
+                lis[i].getElementsByTagName('input')[0].checked = 'checked'
+                selValue.push(lis[i].getElementsByTagName('input')[0].value)
+            }
+            input.value = selValue.sort().join(',')
+        } else {
+            selValue.push(e.value)
+            input.value = selValue.sort().join(',')
+        }
+    } else {
+        if(e.value == 'all') {
+            var lis = input.nextElementSibling.getElementsByTagName("li")
+            for(var i = 1; i < lis.length; i++) {
+                lis[i].getElementsByTagName('input')[0].checked = ''
+            }
+            input.value = ''
+        } else {
+            var cv = new Array()
+            for(var i = 0; i < selValue.length; i++) {
+                if(selValue[i] != e.value) {
+                    cv.push(selValue[i])
+                    input.value = cv.sort().join(',')
+                }
+            }
+        }
+    }
+}
