@@ -48,7 +48,8 @@ function selectInput(select) {
     }
     input.name = select.id
     input.type = 'text'
-    input.readonly='readonly'
+    input.setAttribute('readonly', 'readonly')
+//    input.readonly='readonly'
     input.id = inputid
     input.style.width = '200px'
     input.required = 'required'
