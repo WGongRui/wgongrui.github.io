@@ -7,6 +7,10 @@
  * 调用方式   <script> selectInput(document.getElementById("demandId"))</script>
  */
 function selectInput(select) {
+    selectInput(select, false)
+}
+
+function selectInput(select, required) {
 //        var select = document.getElementById("select")
     var options = select.getElementsByTagName("option")
     var values = new Array()
@@ -46,15 +50,18 @@ function selectInput(select) {
         ul.appendChild(li)
 //            console.log(li.innerText)
     }
+
+    if(required) {
+        input.required = 'required'
+    }
+
     input.name = select.id
     input.type = 'text'
+    // input.readonly='readonly'
     input.editable = 'false'
-    input.required = 'required'
     input.autocomplete = 'off'
-    // input.readonly = 'readonly'
     input.id = inputid
     input.style.width = '200px'
-    input.required = 'required'
     input.class = 'form-control'
     search.class = 'form-control'
 
@@ -74,7 +81,7 @@ function selectInput(select) {
     ul_div.style.overflow = 'auto'
     ul_div.style.width = '200px'
     ul_div.style.backgroundColor = '#ccc'
-    ul_div.style.color = '#EE0000'
+    ul_div.style.color = '#000000'
     ul_div.style.zIndex = 10000
     ul_div.style.fontSize = '15px'
     ul_div.appendChild(ul)
@@ -153,9 +160,9 @@ function checkChange(e) {
             for(var i = 0; i < selValue.length; i++) {
                 if(selValue[i] != e.value) {
                     cv.push(selValue[i])
-                    input.value = cv.sort().join(',')
                 }
             }
+            input.value = cv.sort().join(',')
         }
     }
 }
