@@ -11,11 +11,9 @@
                 </div>
             </a>
         </div>
-        <div>
-            <div class="dispaly">
-                <abbr id="image-info"></abbr>
-                <textarea id="base64"></textarea>
-            </div>
+        <div class="dispaly">
+            <abbr id="image-info"></abbr>
+            <textarea id="base64"></textarea>
             <img id="camera-img">
         </div>
     </body>
@@ -59,9 +57,9 @@
             var base64 = canvas.toDataURL()
 
             // 获取到Base显示在页面上
-            document.getElementById("image-info").innerText = "Size : " + imgFile.size / 1024 + "KB" +
-                                                                  "---Type : " + imgFile.type +
-                                                                  "---FileName : " + imgFile.name
+            document.getElementById("image-info").innerHTML = "Size : " + imgFile.size / 1024 + "KB" +
+                                                                  "<br>Type : " + imgFile.type +
+                                                                  "<br>FileName : " + imgFile.name
             document.getElementById("camera-img").src = blob
             document.getElementById("base64").innerText = base64
         }
