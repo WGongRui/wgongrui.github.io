@@ -2,45 +2,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta content="telephone=no" name="format-detection" />
 </head>
     <body>
-        <a href="javascript:" class="camera">
-            <div>
-                <input id="camera" type="file" accept="image/*" capture="camera">
+        <div class="camera">
+            <a href="javascript:" >
+                <div>
+                    <input id="camera" type="file" accept="image/*" capture="camera">
+                </div>
+            </a>
+        </div>
+        <div>
+            <div class="dispaly">
+                <abbr id="image-info"></abbr>
+                <textarea id="base64"></textarea>
             </div>
-        </a>
+            <img id="camera-img">
+        </div>
     </body>
 </html>
 <style>
-    .camera {
+    body{
+        text-align:center;
+    }
+    .camera *{
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
     }
     .camera div {
-        width: 150px;
-        height: 150px;
         background-size: cover;
         background-image: url("camera.png");
     }
     .camera input {
         opacity: 0;
-        top:0;
-        left: 0;
-        width: inherit;
-        height: inherit;
-        position: absolute;
+    }
+    .dispaly * {
+       width: 100%;
+       margin-top: 10px;
     }
 </style>
 <script>
     document.getElementById("camera").addEventListener("change", function () {
-        // 加载图片
         var imgFile = this.files[0]
         var blob = window.URL.createObjectURL(imgFile)
         var img = new Image();
         img.src = blob;
-        document.body.appendChild(img)
         img.onload = function () {
             var canvas = document.createElement("canvas")
             var ctx = canvas.getContext("2d")
@@ -50,10 +57,13 @@
             canvas.height = h
             ctx.drawImage(img, 0, 0)
             var base64 = canvas.toDataURL()
-            // 显示base码
-            var abbr = document.createElement("abbr")
-            abbr.innerText = base64
-            document.body.appendChild(abbr)
+
+            // 获取到Base显示在页面上
+            document.getElementById("image-info").innerText = "Size : " + imgFile.size / 1024 + "KB" +
+                                                                  "---Type : " + imgFile.type +
+                                                                  "---FileName : " + imgFile.name
+            document.getElementById("camera-img").src = blob
+            document.getElementById("base64").innerText = base64
         }
     })
 </script>
