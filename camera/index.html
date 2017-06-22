@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+</head>
+    <body>
+        <a href="javascript:" class="camera">
+            <div>
+                <input id="camera" type="file" accept="image/*" capture="camera">
+            </div>
+        </a>
+    </body>
+</html>
+<style>
+    .camera {
+        border-radius: 50%;
+    }
+    .camera div {
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        background-image: url("/static/img/camera.png");
+    }
+    .camera input {
+        opacity: 0;
+        top:0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        position: absolute;
+    }
+</style>
+<script>
+    document.getElementById("camera").addEventListener("change", function () {
+        // 加载图片
+        var imgFile = this.files[0]
+        var blob = window.URL.createObjectURL(imgFile)
+        var img = new Image();
+        img.src = blob;
+        document.body.appendChild(img)
+        img.onload = function () {
+            var canvas = document.createElement("canvas")
+            var ctx = canvas.getContext("2d")
+            var w = img.width
+            var h = img.height
+            canvas.width = w
+            canvas.height = h
+            ctx.drawImage(img, 0, 0)
+            var base64 = canvas.toDataURL()
+            // 显示base码
+            var abbr = document.createElement("abbr")
+            abbr.innerText = base64
+            document.body.appendChild(abbr)
+        }
+    })
+</script>
