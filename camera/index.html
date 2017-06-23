@@ -55,13 +55,14 @@
             canvas.height = h
             ctx.drawImage(img, 0, 0)
             var base64 = canvas.toDataURL()
+            var clearbase64 = base64.substr(base64.indexOf(',') + 1)
 
             // 获取到Base显示在页面上
             document.getElementById("image-info").innerHTML = "Size : " + imgFile.size / 1024 + "KB" +
                                                                   "<br>Type : " + imgFile.type +
                                                                   "<br>FileName : " + imgFile.name
             document.getElementById("camera-img").src = blob
-            document.getElementById("base64").innerText = base64
+            document.getElementById("base64").innerText = clearbase64
         }
     })
 </script>
