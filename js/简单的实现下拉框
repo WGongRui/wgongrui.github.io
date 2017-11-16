@@ -62,8 +62,8 @@ function selectInput(select, required) {
     input.autocomplete = 'off'
     input.id = inputid
     input.style.width = '200px'
-    input.class = 'form-control'
-    search.class = 'form-control'
+    input.setAttribute('class', 'form-control')
+    search.setAttribute('class', 'form-control')
 
     div.offsetLeft = px
     div.offsetTop = py
