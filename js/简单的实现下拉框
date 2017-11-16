@@ -72,6 +72,8 @@ function selectInput(select, required) {
     div.style.height = '50px'
     div.style.zIndex = 10000
     div.style.position = 'relative'
+    div.style.display = 'inline-grid'
+    div.style.paddingTop = '8px'
 
     ul.setAttribute('class', inputid)
     ul.style.paddingLeft = '0px'
