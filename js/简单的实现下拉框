@@ -106,6 +106,21 @@ function selectInput(select, required) {
             div2.style.display = 'none'
         }
     })
+    window.addEventListener("mousedown", function (e) {
+        var rect = div.getBoundingClientRect()
+        var dx = rect.x
+        var dy = rect.y
+        var mx = e.screenX
+        var my = e.screenY
+
+        if (mx < dx || mx > dx + Number.parseInt(div.style.width)) {
+            div2.style.display = 'none'
+            return
+        }
+        if (my < dy || my > dy + Number.parseInt(input.offsetHeight) + Number.parseInt(div2.offsetHeight) + 80) {
+            div2.style.display = 'none'
+        }
+    })
     search.addEventListener('input', function () {
         var lis = ul.getElementsByTagName("li")
         if(this.value.trim().length > 0) {
